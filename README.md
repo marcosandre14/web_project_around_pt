@@ -1,25 +1,36 @@
-# Tripleten web_project_around_pt
+# Around The U.S. (Ao redor dos EUA)
 
-Um projeto interativo que permite aos usuários explorar e compartilhar fotos de lugares marcantes nos Estados Unidos. O foco deste estágio do projeto foi a transição de um layout estático para uma galeria dinâmica e funcional alimentada por JavaScript.
+Um projeto interativo de galeria de fotos onde os usuários podem explorar locais, adicionar novos cartões, curtir suas fotos favoritas e gerenciar seu perfil. Este projeto faz parte do currículo de desenvolvimento web, focando em manipulação dinâmica do DOM e eventos JavaScript.
 
-## 🚀 Funcionalidades desta etapa
+## 🚀 Funcionalidades
 
-- **Renderização Dinâmica**: Os cartões são gerados automaticamente a partir de um array de objetos no JavaScript, eliminando a necessidade de código estático repetitivo.
-- **Edição de Perfil**: Implementação de um modal interativo que permite atualizar o nome e a descrição do perfil na página em tempo real.
-- **Sincronização de Dados**: Ao abrir o modal de edição, os campos do formulário são preenchidos automaticamente com os valores atuais exibidos na página, melhorando a experiência do usuário.
-- **Interatividade nos Cartões**: Adição de botões funcionais de **"curtir"** (alternância de estado visual) e **"excluir"** (remoção do elemento do DOM) para cada item da galeria.
-- **Visualização de Imagens (Lightbox)**: Pop-up dinâmico que exibe a imagem do cartão ampliada e com sua respectiva legenda ao ser clicada.
-- **Manipulação Avançada do DOM**: Uso de funções reutilizáveis `openModal()` e `closeModal()` para gerenciar múltiplos modais de forma modular, seguindo o princípio **DRY** (Don't Repeat Yourself).
-- **Arquitetura BEM**: Manutenção rigorosa da metodologia **BEM** (Block Element Modifier) para garantir a independência de componentes e estilos, mesmo em elementos injetados via JavaScript.
+- **Edição de Perfil**: Alteração dinâmica do nome e da descrição do usuário através de modais.
+- **Galeria Dinâmica**: Renderização automática de cartões a partir de um array de dados inicial.
+- **Criação de Cartões**: Formulário para adicionar novos locais com título e link de imagem (com suporte a imagens placeholder para dados ausentes).
+- **Sistema de Likes**: Feedback visual ao curtir um cartão (coração interativo).
+- **Remoção de Conteúdo**: Opção de excluir cartões da galeria.
+- **Visualização Ampliada**: Ao clicar em uma imagem, um modal de lightbox abre com a foto em tamanho real e sua legenda.
+- **Interface Responsiva**: Design adaptável para diferentes tamanhos de tela.
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **HTML5**: Estrutura semântica e utilização da tag `<template>` para criação de componentes clonáveis.
-- **CSS3**: Estilização avançada com foco em estados modificadores (ex: `_is-opened`, `_is-active`) seguindo o padrão BEM.
-- **JavaScript**: Manipulação de eventos, lógica de formulários com `preventDefault()`, e gestão dinâmica de elementos da interface.
+- **HTML5**: Estrutura semântica e uso de tags `<template>`.
+- **CSS3**: Estilização moderna utilizando a metodologia **BEM** (Block Element Modifier).
+- **JavaScript**:
+  - Manipulação de eventos.
+  - Manipulação do DOM (Document Object Model).
+  - Clonagem de nós (`cloneNode`).
+  - Parâmetros padrão e funções anônimas.
 
 ## 📁 Estrutura do Projeto
 
-- `index.html`: Contém a estrutura base, os containers dos modais e o template para os cartões.
-- `pages/index.css`: Arquivo central de estilos, organizando a identidade visual e o layout responsivo.
-- `scripts/index.js`: Lógica principal do sistema, contendo o array `initialCards`, funções de criação de elementos e os manipuladores de eventos (handlers).
+```text
+/
+├── images/            # Ativos de imagem e ícones
+├── pages/
+│   └── index.css      # Estilos principais compilados
+└── scripts/
+    └── index.js       # Lógica principal do JavaScript
+├── index.html         # Estrutura principal
+└── README.md          # Documentação do projeto
+```

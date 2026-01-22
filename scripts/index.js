@@ -1,4 +1,5 @@
-// --- DADOS INICIAIS ---
+/* DADOS INICIAIS                              */
+
 const initialCards = [
   {
     name: "Vale de Yosemite",
@@ -26,14 +27,19 @@ const initialCards = [
   },
 ];
 
-// --- SELEÇÃO DE ELEMENTOS ---
+/* SELEÇÃO DE ELEMENTOS                            */
 
-// Perfil (Informações na página)
+// Galeria e Template
+const cardsContainer = document.querySelector(".cards__list");
+const cardTemplate = document.querySelector("#card-template").content;
+
+// Perfil
 const profileName = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 const editButton = document.querySelector(".profile__edit-button");
+const addButton = document.querySelector(".profile__add-button");
 
-// Modal de Edição de Perfil
+// Modal de Edição
 const editPopup = document.querySelector("#edit-popup");
 const editForm = editPopup.querySelector("#edit-profile-form");
 const nameInput = editPopup.querySelector(".popup__input_type_name");
@@ -43,7 +49,6 @@ const descriptionInput = editPopup.querySelector(
 const closeEditButton = editPopup.querySelector(".popup__close");
 
 // Modal de Novo Cartão
-const addButton = document.querySelector(".profile__add-button");
 const newCardPopup = document.querySelector("#new-card-popup");
 const newCardForm = newCardPopup.querySelector("#new-card-form");
 const placeNameInput = newCardPopup.querySelector(
@@ -52,17 +57,13 @@ const placeNameInput = newCardPopup.querySelector(
 const linkInput = newCardPopup.querySelector(".popup__input_type_url");
 const closeNewCardButton = newCardPopup.querySelector(".popup__close");
 
-// Modal de Imagem (Lightbox)
+// Modal de Imagem
 const imagePopup = document.querySelector("#image-popup");
 const popupImage = imagePopup.querySelector(".popup__image");
 const popupCaption = imagePopup.querySelector(".popup__caption");
 const closeImageButton = imagePopup.querySelector(".popup__close");
 
-// Galeria e Template
-const cardsContainer = document.querySelector(".cards__list");
-const cardTemplate = document.querySelector("#card-template").content;
-
-// --- FUNÇÕES REUTILIZÁVEIS PARA MODAIS ---
+/* FUNÇÕES DE MODAL (REUTILIZÁVEIS)                      */
 
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
@@ -72,17 +73,57 @@ function closeModal(modal) {
   modal.classList.remove("popup_is-opened");
 }
 
-// --- LÓGICA DO PERFIL ---
+/* LÓGICA DOS CARTÕES                             */
 
-function fillProfileForm() {
-  nameInput.value = profileName.textContent;
-  descriptionInput.value = profileDescription.textContent;
+function handleLikeButton(evt) {
+  evt.target.classList.toggle("card__like-button_is-active");
 }
 
-function handleOpenEditModal() {
-  fillProfileForm();
-  openModal(editPopup);
+function handleDeleteButton(evt) {
+  const cardElement = evt.target.closest(".card");
+  cardElement.remove();
 }
+
+function handleImageClick(name, link) {
+  popupImage.src = link;
+  popupImage.alt = name;
+  popupCaption.textContent = name;
+  openModal(imagePopup);
+}
+
+// Cria o elemento do cartão com parâmetros padrão (Requisito Checklist)
+function getCardElement(
+  name = "Lugar sem nome",
+  link = "./images/placeholder.jpg"
+) {
+  const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
+  const cardImage = cardElement.querySelector(".card__image");
+  const cardTitle = cardElement.querySelector(".card__title");
+  const likeButton = cardElement.querySelector(".card__like-button");
+  const deleteButton = cardElement.querySelector(".card__delete-button");
+
+  cardImage.src = link;
+  cardImage.alt = name;
+  cardTitle.textContent = name;
+
+  likeButton.addEventListener("click", handleLikeButton);
+  deleteButton.addEventListener("click", handleDeleteButton);
+  cardImage.addEventListener("click", () => handleImageClick(name, link));
+
+  return cardElement;
+}
+
+function renderCard(name, link, container) {
+  const cardElement = getCardElement(name, link);
+  container.prepend(cardElement);
+}
+
+// Renderização inicial
+initialCards.forEach((item) => {
+  renderCard(item.name, item.link, cardsContainer);
+});
+
+/* MANIPULADORES DE FORMULÁRIO                        */
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
@@ -91,77 +132,29 @@ function handleProfileFormSubmit(evt) {
   closeModal(editPopup);
 }
 
-// --- LÓGICA DE CARTÕES ---
-
-function handleLikeButton(evt) {
-  evt.target.classList.toggle("card__like-button_is-active");
-}
-
-function handleDeleteButton(evt) {
-  evt.target.closest(".card").remove();
-}
-
-function handleImageClick(evt) {
-  popupImage.src = evt.target.src;
-  popupImage.alt = evt.target.alt;
-  popupCaption.textContent = evt.target.alt;
-  openModal(imagePopup);
-}
-
-function createCard(data) {
-  const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
-  const cardImage = cardElement.querySelector(".card__image");
-  const cardTitle = cardElement.querySelector(".card__title");
-  const likeButton = cardElement.querySelector(".card__like-button");
-  const deleteButton = cardElement.querySelector(".card__delete-button");
-
-  cardImage.src = data.link;
-  cardImage.alt = data.name;
-  cardTitle.textContent = data.name;
-
-  likeButton.addEventListener("click", handleLikeButton);
-  deleteButton.addEventListener("click", handleDeleteButton);
-  cardImage.addEventListener("click", handleImageClick);
-
-  return cardElement;
-}
-
-// Renderização inicial e log no console (conforme checklist)
-initialCards.forEach((item) => {
-  console.log(item.name);
-  const card = createCard(item);
-  cardsContainer.append(card);
-});
-
-// --- LÓGICA DE NOVO CARTÃO ---
-
-function handleOpenNewCardModal() {
-  openModal(newCardPopup);
-}
-
-function handleNewCardFormSubmit(evt) {
+function handleCardFormSubmit(evt) {
   evt.preventDefault();
-  const newCardData = {
-    name: placeNameInput.value,
-    link: linkInput.value,
-  };
-  const newCard = createCard(newCardData);
-  cardsContainer.prepend(newCard);
+  renderCard(placeNameInput.value, linkInput.value, cardsContainer);
   newCardForm.reset();
   closeModal(newCardPopup);
 }
 
-// --- OUVINTES DE EVENTOS (LISTENERS) ---
+/* OUVINTES DE EVENTOS                            */
 
-// Edição de Perfil
-editButton.addEventListener("click", handleOpenEditModal);
+// Perfil: Preenche os inputs com dados atuais antes de abrir
+editButton.addEventListener("click", () => {
+  nameInput.value = profileName.textContent;
+  descriptionInput.value = profileDescription.textContent;
+  openModal(editPopup);
+});
+
 closeEditButton.addEventListener("click", () => closeModal(editPopup));
 editForm.addEventListener("submit", handleProfileFormSubmit);
 
 // Novo Cartão
-addButton.addEventListener("click", handleOpenNewCardModal);
+addButton.addEventListener("click", () => openModal(newCardPopup));
 closeNewCardButton.addEventListener("click", () => closeModal(newCardPopup));
-newCardForm.addEventListener("submit", handleNewCardFormSubmit);
+newCardForm.addEventListener("submit", handleCardFormSubmit);
 
-// Visualização de Imagem
+// Modal de Imagem
 closeImageButton.addEventListener("click", () => closeModal(imagePopup));
