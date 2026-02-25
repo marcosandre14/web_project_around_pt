@@ -1,4 +1,5 @@
 export default class FormValidator {
+  // O construtor recebe as configurações de classes e o formulário a ser validado
   constructor(settings, formElement) {
     this._settings = settings;
     this._formElement = formElement;
@@ -12,7 +13,7 @@ export default class FormValidator {
     );
   }
 
-  // Método privado para mostrar a mensagem de erro
+  // Método privado para mostrar a mensagem de erro e aplicar estilo ao input
   _showInputError(inputElement, errorMessage) {
     const errorElement = this._formElement.querySelector(
       `#${inputElement.id}-error`,
@@ -25,7 +26,7 @@ export default class FormValidator {
     errorElement.classList.add(this._settings.errorClass);
   }
 
-  // Método privado para esconder a mensagem de erro
+  // Método privado para esconder a mensagem de erro e remover estilo do input
   _hideInputError(inputElement) {
     const errorElement = this._formElement.querySelector(
       `#${inputElement.id}-error`,
@@ -38,7 +39,7 @@ export default class FormValidator {
     errorElement.textContent = "";
   }
 
-  // Método privado para verificar a validade do campo
+  // Método privado para verificar a validade de um campo específico
   _checkInputValidity(inputElement) {
     if (!inputElement.validity.valid) {
       this._showInputError(inputElement, inputElement.validationMessage);
@@ -47,14 +48,14 @@ export default class FormValidator {
     }
   }
 
-  // Método privado para verificar se há algum input inválido
+  // Método privado que verifica se existe algum campo inválido na lista
   _hasInvalidInput() {
     return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   }
 
-  // Método privado para alternar o estado do botão salvar/criar
+  // Método privado para alternar o estado visual e funcional do botão de envio
   _toggleButtonState() {
     if (this._hasInvalidInput()) {
       this._buttonElement.classList.add(this._settings.inactiveButtonClass);
@@ -65,7 +66,7 @@ export default class FormValidator {
     }
   }
 
-  // Método público que inicia o processo de validação
+  // Método público que ativa a validação e configura os ouvintes de evento
   setEventListeners() {
     this._formElement.addEventListener("submit", (evt) => {
       evt.preventDefault();
@@ -81,7 +82,7 @@ export default class FormValidator {
     });
   }
 
-  // Método público para limpar erros e resetar o botão (usado ao abrir o popup)
+  // Método público para limpar erros e resetar o estado do botão
   resetValidation() {
     this._toggleButtonState();
 

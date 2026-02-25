@@ -1,3 +1,4 @@
+// Array de dados inicial para renderização dos cartões
 export const initialCards = [
   {
     name: "Vale de Yosemite",
@@ -25,24 +26,12 @@ export const initialCards = [
   },
 ];
 
-// Função para abrir o modal e adicionar o ouvinte de tecla Esc
-export function openModal(modal) {
-  modal.classList.add("popup_is-opened");
-  document.addEventListener("keydown", closeByEscape);
-}
-
-// Função para fechar o modal e remover o ouvinte de tecla Esc
-export function closeModal(modal) {
-  modal.classList.remove("popup_is-opened");
-  document.removeEventListener("keydown", closeByEscape);
-}
-
-// Lógica para fechar o modal ao pressionar a tecla Escape
-function closeByEscape(evt) {
-  if (evt.key === "Escape") {
-    const openedPopup = document.querySelector(".popup_is-opened");
-    if (openedPopup) {
-      closeModal(openedPopup);
-    }
-  }
-}
+// Configurações de validação de formulário (utilizadas pela classe FormValidator)
+export const validationConfig = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
+};
