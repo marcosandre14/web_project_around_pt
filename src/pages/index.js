@@ -85,8 +85,11 @@ const addButton = document.querySelector(".profile__add-button");
 editButton.addEventListener("click", () => {
   const { name, job } = userInfo.getUserInfo();
 
-  document.querySelector(".popup__input_type_name").value = name;
-  document.querySelector(".popup__input_type_description").value = job;
+  // Preenche os campos através do método da classe
+  editProfilePopup.setInputValues({
+    name: name,
+    description: job,
+  });
 
   formValidators["edit-profile-form"].resetValidation();
   editProfilePopup.open();

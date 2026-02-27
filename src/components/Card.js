@@ -45,11 +45,12 @@ export default class Card {
     this._element = this._getTemplate();
     const cardImage = this._element.querySelector(".card__image");
 
-    this._setEventListeners();
-
+    // Define os dados do elemento antes de adicionar os ouvintes
     cardImage.src = this._link;
     cardImage.alt = this._name;
     this._element.querySelector(".card__title").textContent = this._name;
+
+    this._setEventListeners();
 
     return this._element;
   }
