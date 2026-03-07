@@ -47,7 +47,9 @@ Um projeto interativo de galeria de fotos onde os usuários podem explorar locai
 │   └── vendor/         # Bibliotecas externas e resets (normalize.css)
 ├── index.html          # Estrutura principal da aplicação
 └── README.md           # Documentação do projeto
-
+```
 🔗 Link do Projeto
 https://marcosandre14.github.io/web_project_around_pt/
-```
+
+
+
