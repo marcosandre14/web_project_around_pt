@@ -1,19 +1,20 @@
 export default class Section {
-  // O construtor recebe os dados iniciais, a função de renderização e o seletor do container
-  constructor({ items, renderer }, containerSelector) {
-    this._items = items;
+  // renderer é a função que cria o card, containerSelector é onde o card será inserido
+  constructor({ renderer }, containerSelector) {
     this._renderer = renderer;
     this._container = document.querySelector(containerSelector);
   }
 
-  // Método público para processar e renderizar cada item do array inicial
-  renderItems() {
-    this._items.forEach((item) => {
+  // Renderiza todos os itens da lista
+  renderItems(items) {
+    // Limpamos o container antes para não duplicar itens caso a função seja chamada de novo
+    this._container.innerHTML = "";
+    items.forEach((item) => {
       this._renderer(item);
     });
   }
 
-  // Método público para inserir o elemento pronto no container
+  // Adiciona um único item ao container (usamos prepend para novos cards ficarem no topo)
   addItem(element) {
     this._container.prepend(element);
   }

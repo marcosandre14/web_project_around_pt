@@ -148,6 +148,14 @@
   margin: 0;
 }
 
+.popup__content_type_confirmation {
+  min-height: 181px;
+}
+
+.popup__content_type_confirmation .popup__button {
+  margin-top: 40px;
+}
+
 @media screen and (max-width: 544px) {
   .popup__content {
     width: calc(100% - 38px);

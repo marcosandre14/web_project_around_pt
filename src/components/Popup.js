@@ -1,41 +1,47 @@
 export default class Popup {
-  // O construtor recebe o seletor CSS do popup e localiza o elemento no DOM
   constructor(popupSelector) {
+    // Busca o elemento do popup pelo seletor (ex: #edit-popup)
     this._popupElement = document.querySelector(popupSelector);
 
+    // Bind obrigatório para que o 'this' dentro do método se refira à classe Popup
     this._handleEscClose = this._handleEscClose.bind(this);
   }
 
-  // Método público para abrir a janela modal
+  // Abre a janela modal e adiciona o ouvinte de teclado global
   open() {
-    this._popupElement.classList.add("popup_is-opened");
-    // Adiciona o ouvinte de tecla Esc no documento apenas enquanto o popup está aberto
-    document.addEventListener("keydown", this._handleEscClose);
+    if (this._popupElement) {
+      this._popupElement.classList.add("popup_is-opened");
+      document.addEventListener("keydown", this._handleEscClose);
+    }
   }
 
-  // Método público para fechar a janela modal
+  // Fecha a janela modal e remove o ouvinte de teclado
   close() {
-    this._popupElement.classList.remove("popup_is-opened");
-    // Remove o ouvinte de tecla Esc para evitar processamento desnecessário
-    document.removeEventListener("keydown", this._handleEscClose);
+    if (this._popupElement) {
+      this._popupElement.classList.remove("popup_is-opened");
+      document.removeEventListener("keydown", this._handleEscClose);
+    }
   }
 
-  // Método privado que detecta a tecla Esc para disparar o fechamento
+  // Lógica para fechar ao pressionar a tecla Esc
   _handleEscClose(evt) {
     if (evt.key === "Escape") {
       this.close();
     }
   }
 
-  // Método, configura o fechamento pelo ícone 'X' ou clicando no overlay
+  // Configura fechamento ao clicar no botão 'X' ou no fundo escuro (overlay)
   setEventListeners() {
-    this._popupElement.addEventListener("mousedown", (evt) => {
-      if (
-        evt.target.classList.contains("popup_is-opened") ||
-        evt.target.classList.contains("popup__close")
-      ) {
-        this.close();
-      }
-    });
+    if (this._popupElement) {
+      this._popupElement.addEventListener("mousedown", (evt) => {
+        // Verifica se o clique foi no overlay (fundo) ou no botão de fechar
+        if (
+          evt.target.classList.contains("popup_is-opened") ||
+          evt.target.classList.contains("popup__close")
+        ) {
+          this.close();
+        }
+      });
+    }
   }
 }

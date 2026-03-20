@@ -66,12 +66,17 @@ export default class FormValidator {
     }
   }
 
-  // Método público que ativa a validação e configura os ouvintes de evento
-  setEventListeners() {
+  // Método público que ativa a validação
+  enableValidation() {
     this._formElement.addEventListener("submit", (evt) => {
       evt.preventDefault();
     });
 
+    this._setEventListeners();
+  }
+
+  // Método privado para configurar os ouvintes de evento
+  _setEventListeners() {
     this._toggleButtonState();
 
     this._inputList.forEach((inputElement) => {

@@ -1,11 +1,11 @@
 export default class UserInfo {
-  // O construtor recebe um objeto com os seletores para o nome e o trabalho/profissão
-  constructor({ nameSelector, jobSelector }) {
+  constructor({ nameSelector, jobSelector, avatarSelector }) {
     this._nameElement = document.querySelector(nameSelector);
     this._jobElement = document.querySelector(jobSelector);
+    this._avatarElement = document.querySelector(avatarSelector);
   }
 
-  // Método público que retorna um objeto com os dados atuais do usuário exibidos na página
+  // Retorna um objeto com os dados que estão visíveis na página no momento
   getUserInfo() {
     return {
       name: this._nameElement.textContent,
@@ -13,9 +13,17 @@ export default class UserInfo {
     };
   }
 
-  // recebe novos dados e atualiza a interface visualmente
+  // Atualiza o Nome e o Cargo (Sobre mim) na interface
   setUserInfo({ name, job }) {
-    this._nameElement.textContent = name;
-    this._jobElement.textContent = job;
+    if (name) this._nameElement.textContent = name;
+    if (job) this._jobElement.textContent = job;
+  }
+
+  // Atualiza a imagem do perfil (Avatar)
+  // Recebe o link da imagem e aplica ao atributo src do elemento
+  setAvatar(avatarUrl) {
+    if (avatarUrl && this._avatarElement) {
+      this._avatarElement.src = avatarUrl;
+    }
   }
 }

@@ -1,46 +1,70 @@
 import Popup from "./Popup.js";
 
 export default class PopupWithForm extends Popup {
-  // O construtor recebe o seletor do popup e a função de callback do envio
   constructor(popupSelector, handleFormSubmit) {
     super(popupSelector);
     this._handleFormSubmit = handleFormSubmit;
-    this._formElement = this._popupElement.querySelector(".popup__form");
-    this._inputList = Array.from(
-      this._formElement.querySelectorAll(".popup__input"),
-    );
+
+    // Busca o formulário dentro do popup já instanciado pela classe pai
+    this._form = this._popupElement.querySelector(".popup__form");
+
+    // só busca inputs e botões se o formulário existir
+    if (this._form) {
+      this._inputList = this._form.querySelectorAll(".popup__input");
+      this._submitButton = this._form.querySelector(".popup__button");
+      this._submitButtonText = this._submitButton
+        ? this._submitButton.textContent
+        : "";
+    }
   }
 
-  // Coleta os dados de todos os campos do formulário
+  // Altera o texto do botão durante o carregamento (UX)
+  renderLoading(isLoading, loadingText = "Salvando...") {
+    if (this._submitButton) {
+      this._submitButton.textContent = isLoading
+        ? loadingText
+        : this._submitButtonText;
+    }
+  }
+
+  // Coleta os dados de todos os campos de entrada do formulário
   _getInputValues() {
-    const formValues = {};
-    this._inputList.forEach((input) => {
-      formValues[input.name] = input.value;
-    });
-    return formValues;
+    this._formValues = {};
+    if (this._inputList) {
+      this._inputList.forEach((input) => {
+        this._formValues[input.name] = input.value;
+      });
+    }
+    return this._formValues;
   }
 
-  // Insere dados nos campos do formulário
+  // Preenche os inputs do formulário
   setInputValues(data) {
-    this._inputList.forEach((input) => {
-      if (data[input.name]) {
-        input.value = data[input.name];
-      }
-    });
+    if (this._inputList) {
+      this._inputList.forEach((input) => {
+        if (data[input.name]) {
+          input.value = data[input.name];
+        }
+      });
+    }
   }
 
-  // Adiciona ouvintes de clique (pai) e o evento de submit
+  // Adiciona o ouvinte de clique e o de envio do formulário
   setEventListeners() {
     super.setEventListeners();
-    this._formElement.addEventListener("submit", (evt) => {
-      evt.preventDefault();
-      this._handleFormSubmit(this._getInputValues());
-    });
+    if (this._form) {
+      this._form.addEventListener("submit", (evt) => {
+        evt.preventDefault();
+        this._handleFormSubmit(this._getInputValues());
+      });
+    }
   }
 
-  // Fecha o popup e limpa o formulário
+  // Fecha o popup e limpa os campos
   close() {
     super.close();
-    this._formElement.reset();
+    if (this._form) {
+      this._form.reset();
+    }
   }
 }

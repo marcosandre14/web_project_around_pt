@@ -2,10 +2,9 @@
 <html lang="pt">
   <head>
     <meta charset="UTF-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta content="ie=edge" http-equiv="X-UA-Compatible" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Around The U.S.</title>
-    <link href="./pages/index.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./pages/index.css" />
   </head>
   <body class="page">
     <div class="page__content">
@@ -16,9 +15,17 @@
           src="./images/logo.svg"
         />
       </header>
+
       <main class="content">
         <section class="profile page__section">
-          <img class="profile__image" src="./images/avatar.jpg" alt="Avatar" />
+          <div class="profile__avatar-container">
+            <img
+              class="profile__image"
+              src="./images/avatar.jpg"
+              alt="Avatar"
+            />
+            <div class="profile__avatar-overlay"></div>
+          </div>
           <div class="profile__info">
             <h1 class="profile__title">Jacques Cousteau</h1>
             <button
@@ -34,10 +41,12 @@
             type="button"
           ></button>
         </section>
+
         <section class="cards page__section">
           <ul class="cards__list"></ul>
         </section>
       </main>
+
       <footer class="footer page__section">
         <p class="footer__copyright">
           &#169; <span id="footer-year"></span> Around The U.S.
@@ -54,47 +63,41 @@
           ></button>
           <div class="card__description">
             <h2 class="card__title"></h2>
-            <button
-              aria-label="Curtir"
-              class="card__like-button"
-              type="button"
-            ></button>
+            <div class="card__like-container">
+              <button
+                aria-label="Curtir"
+                class="card__like-button"
+                type="button"
+              ></button>
+            </div>
           </div>
         </li>
       </template>
 
       <div class="popup" id="edit-popup">
         <div class="popup__content">
-          <button
-            aria-label="Fechar"
-            class="popup__close"
-            type="button"
-          ></button>
+          <button class="popup__close" type="button"></button>
           <h3 class="popup__title">Editar perfil</h3>
           <form class="popup__form" id="edit-profile-form">
             <input
               id="owner-name"
               name="name"
-              class="popup__input popup__input_type_name"
+              class="popup__input"
               placeholder="Nome"
-              type="text"
               required
               minlength="2"
               maxlength="40"
-              autocomplete="name"
             />
             <span id="owner-name-error" class="popup__error"></span>
 
             <input
               id="owner-description"
               name="description"
-              class="popup__input popup__input_type_description"
+              class="popup__input"
               placeholder="Sobre mim"
-              type="text"
               required
               minlength="2"
               maxlength="200"
-              autocomplete="organization-title"
             />
             <span id="owner-description-error" class="popup__error"></span>
 
@@ -105,34 +108,27 @@
 
       <div class="popup" id="new-card-popup">
         <div class="popup__content">
-          <button
-            aria-label="Fechar"
-            class="popup__close"
-            type="button"
-          ></button>
+          <button class="popup__close" type="button"></button>
           <h3 class="popup__title">Novo local</h3>
           <form class="popup__form" id="new-card-form">
             <input
               id="card-title"
               name="place-name"
-              class="popup__input popup__input_type_card-name"
+              class="popup__input"
               placeholder="Título"
               required
               minlength="2"
               maxlength="30"
-              type="text"
-              autocomplete="off"
             />
             <span id="card-title-error" class="popup__error"></span>
 
             <input
               id="card-url"
               name="link"
-              class="popup__input popup__input_type_url"
+              class="popup__input"
               placeholder="Link de Imagem"
               required
               type="url"
-              autocomplete="off"
             />
             <span id="card-url-error" class="popup__error"></span>
 
@@ -143,13 +139,38 @@
 
       <div class="popup" id="image-popup">
         <div class="popup__content popup__content_content_image">
-          <button
-            aria-label="Fechar"
-            class="popup__close"
-            type="button"
-          ></button>
+          <button class="popup__close" type="button"></button>
           <img alt="" class="popup__image" src="" />
           <p class="popup__caption"></p>
+        </div>
+      </div>
+
+      <div class="popup" id="delete-popup">
+        <div class="popup__content popup__content_type_confirmation">
+          <button class="popup__close" type="button"></button>
+          <h3 class="popup__title">Tem certeza?</h3>
+          <form class="popup__form" id="delete-form">
+            <button class="button popup__button" type="submit">Sim</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="popup" id="avatar-popup">
+        <div class="popup__content">
+          <button class="popup__close" type="button"></button>
+          <h3 class="popup__title">Alterar a foto do perfil</h3>
+          <form class="popup__form" id="avatar-form">
+            <input
+              id="avatar-url"
+              name="avatar"
+              class="popup__input"
+              placeholder="Link da foto"
+              required
+              type="url"
+            />
+            <span id="avatar-url-error" class="popup__error"></span>
+            <button class="button popup__button" type="submit">Salvar</button>
+          </form>
         </div>
       </div>
     </div>

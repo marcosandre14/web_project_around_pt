@@ -1,20 +1,18 @@
 import Popup from "./Popup.js";
 
 export default class PopupWithImage extends Popup {
-  // O construtor localiza os elementos de imagem e legenda dentro do popup
   constructor(popupSelector) {
     super(popupSelector);
-    this._imageElement = this._popupElement.querySelector(".popup__image");
-    this._captionElement = this._popupElement.querySelector(".popup__caption");
+    // Buscamos os elementos internos apenas uma vez no construtor
+    this._image = this._popupElement.querySelector(".popup__image");
+    this._caption = this._popupElement.querySelector(".popup__caption");
   }
 
-  // Sobrescreve o método open para configurar a imagem antes de mostrar o popup
+  // Sobrescreve o método open da classe pai (Popup)
   open(name, link) {
-    this._imageElement.src = link;
-    this._imageElement.alt = name;
-    this._captionElement.textContent = name;
-
-    // Chama o método open da classe pai (Popup.js) para exibir o modal
+    this._image.src = link;
+    this._image.alt = name;
+    this._caption.textContent = name;
     super.open();
   }
 }
